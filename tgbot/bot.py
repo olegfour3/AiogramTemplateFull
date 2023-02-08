@@ -1,33 +1,22 @@
 import asyncio
 import logging
 
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
 from tgbot.config import load_config
-from tgbot.filters.admin import AdminFilter
-from tgbot.handlers.admin import register_admin
-from tgbot.handlers.echo import register_echo
-from tgbot.handlers.user import register_user
-from tgbot.middlewares.environment import EnvironmentMiddleware
+from tgbot.filters import register_all_filters
+from tgbot.handlers import register_all_handlers
+
+from tgbot.middlewares import register_all_middlewares
 
 logger = logging.getLogger(__name__)
 
-
-def register_all_middlewares(dp, config):
-    dp.setup_middleware(EnvironmentMiddleware(config=config))
-
-
-def register_all_filters(dp):
-    dp.filters_factory.bind(AdminFilter)
-
-
-def register_all_handlers(dp):
-    register_admin(dp)
-    register_user(dp)
-
-    register_echo(dp)
+# async def __on_start_up(dp: Dispatcher, config) -> None:
+#     register_all_filters(dp)
+#     register_all_handlers(dp)
+#     register_all_middlewares(dp, config)
 
 
 async def main():
@@ -36,7 +25,7 @@ async def main():
         format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
     )
     logger.info("Starting bot")
-    config = load_config(".env")
+    config = load_config("/.env")
 
     storage = RedisStorage2() if config.tg_bot.use_redis else MemoryStorage()
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
@@ -49,6 +38,8 @@ async def main():
     register_all_handlers(dp)
 
     # start
+    # await executor.start_polling(dp, skip_updates=True, on_startup=__on_start_up)
+    # or
     try:
         await dp.start_polling()
     finally:
@@ -57,8 +48,12 @@ async def main():
         await bot.session.close()
 
 
-if __name__ == '__main__':
+def start_bot():
     try:
         asyncio.run(main())
     except (KeyboardInterrupt, SystemExit):
         logger.error("Bot stopped!")
+
+
+if __name__ == '__main__':
+    start_bot()
