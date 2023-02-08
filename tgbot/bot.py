@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import locale
 
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
@@ -13,6 +14,11 @@ from tgbot.middlewares import register_all_middlewares
 
 logger = logging.getLogger(__name__)
 
+locale.setlocale(
+    category=locale.LC_ALL,
+    locale="Russian"
+)
+
 # async def __on_start_up(dp: Dispatcher, config) -> None:
 #     register_all_filters(dp)
 #     register_all_handlers(dp)
@@ -24,6 +30,7 @@ async def main():
         level=logging.INFO,
         format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
     )
+
     logger.info("Starting bot")
     config = load_config(".env")
 
