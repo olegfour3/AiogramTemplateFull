@@ -22,9 +22,10 @@ You can see tutorials on how to create, and use it on <a href='https://botfather
 
 ```
 tgbot_template/
-├── bot.py
+├── run.py
 ├── tgbot/
 │   ├── __init__.py
+│   ├── bot.py
 │   ├── config.py
 │   ├── filters/
 │   ├── handlers/
