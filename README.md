@@ -1,20 +1,7 @@
 # tgbot_template
 
-<img height="30em" src="https://raw.githubusercontent.com/anki-geo/ultimate-geography/a44a569a922e1d241517113e2917736af808eed7/src/media/flags/ug-flag-united_kingdom.svg" alt="english" align = "center"/>
 This template is recommended to use in your Telegram bots written on <a href='https://github.com/aiogram/aiogram'>AIOgram</a>.
-You can see tutorials on how to create, and use it on <a href='https://botfather.dev?utm_source=github_template'>Website with course on Telegram Bots Development</a>.
-<br/><br/><br/>
 
-
-<img height="30em" src="https://raw.githubusercontent.com/anki-geo/ultimate-geography/a44a569a922e1d241517113e2917736af808eed7/src/media/flags/ug-flag-ukraine.svg" alt="ukrainian" align = "center"/>
-Цей шаблон рекомендовано використовувати для створення ваших Telegram-ботів, написаних на <a href='https://github.com/aiogram/aiogram'>AIOgram</a>.
-Ви можете переглянути навчальні матеріали щодо створення та використання шаблону на <a href='https://botfather.dev?utm_source=github_template'>веб-сайті з курсом із розробки ботів Telegram</a>
-<br/><br/><br/>
-
-
-<img height="30em" src="https://raw.githubusercontent.com/anki-geo/ultimate-geography/a44a569a922e1d241517113e2917736af808eed7/src/media/flags/ug-flag-russia.svg" alt="russian" align = "center"/>
-Этот шаблон рекомендуется использовать для создания ваших Telegram-ботов, написанных на <a href='https://github.com/aiogram/aiogram'>AIOgram</a>.
-Учебные материалы по созданию и использованию шаблона можно найти на <a href='https://botfather.dev?utm_source=github_template'>веб-сайте с курсом по разработке ботов Telegram</a>
 
 ## About the template
 
@@ -27,6 +14,11 @@ tgbot_template/
 │   ├── __init__.py
 │   ├── bot.py
 │   ├── config.py
+│   ├── database/
+│   ├── states/
+│   ├── services/
+│   ├── keyboards/
+│   ├── misc/
 │   ├── filters/
 │   ├── handlers/
 │   └── middlewares/
@@ -45,10 +37,11 @@ tgbot_template/
 
 ## Detailed description
 
-### `bot.py`
+The `run.py` script is the entry point for the template Telegram bot.
 
-The bot.py script is the entry point for the template Telegram bot. It performs the following steps to start and run the
-bot:
+### `tgbot/bot.py`
+
+It performs the following steps to start and run the bot:
 
 1. Set up logging: The `logging` module is imported and configured to log messages to the console.
 2. Load the configuration: The `load_config()` function from the `tgbot.config` module is called to read the configuration
