@@ -2,6 +2,7 @@ from aiogram.types import Message
 from tgbot.misc import rate_limit
 
 
+@rate_limit(5, 'start')
 async def user_start(message: Message):
     await message.reply("Hello, user!")
 
