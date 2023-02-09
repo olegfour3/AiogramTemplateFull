@@ -9,6 +9,7 @@ from aiogram.utils import exceptions
 def register_all_handlers(dp):
     register_admin(dp)
     register_user(dp)
+    register_errors(dp)
 
     register_echo(dp)
 
