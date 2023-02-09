@@ -1,1 +1,1 @@
-from .main import register_models
+from .__main__ import register_models
