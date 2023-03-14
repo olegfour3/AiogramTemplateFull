@@ -1,18 +1,20 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
+from aiogram.types import CallbackQuery
 from aiogram.utils.markdown import hcode
+from loguru import logger
+
+from loader import dp
 
 
+@dp.message_handler(state="*")
 async def bot_echo(message: types.Message):
-    text = [
-        "Эхо без состояния.",
-        "Сообщение:",
-        message.text
-    ]
+    text = f"Эхо без состояния. Сообщение:\n {hcode(message.text)}"
 
-    await message.answer('\n'.join(text))
+    await message.answer(text)
 
 
+@dp.message_handler(state="*")
 async def bot_echo_all(message: types.Message, state: FSMContext):
     state_name = await state.get_state()
     text = [
@@ -23,4 +25,6 @@ async def bot_echo_all(message: types.Message, state: FSMContext):
     await message.answer('\n'.join(text))
 
 
-
+@dp.callback_query_handler()
+async def cq_echo(call: CallbackQuery):
+    logger.debug(call.data)

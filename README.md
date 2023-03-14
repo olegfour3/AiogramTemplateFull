@@ -1,4 +1,4 @@
-# tgbot_template
+# Aiogram Template
 
 This template is recommended to use in your Telegram bots written on <a href='https://github.com/aiogram/aiogram'>AIOgram</a>.
 
@@ -10,22 +10,23 @@ This template is recommended to use in your Telegram bots written on <a href='ht
 ```
 tgbot_template/
 ├── run.py
+├── loader.py
+├── config.py
+├── bot_app.py
 ├── tgbot/
 │   ├── __init__.py
-│   ├── bot.py
-│   ├── config.py
 │   ├── database/
 │   ├── states/
 │   ├── services/
 │   ├── keyboards/
 │   ├── misc/
+│   ├── utils/
 │   ├── filters/
 │   ├── handlers/
 │   └── middlewares/
 ```
 
-- The `tgbot` package is the root package for the bot, and it contains sub-packages for **filters**, **handlers**,
-  and **middlewares**.
+- The `tgbot` package is the root package for the bot, and it contains sub-packages for **filters**, **handlers**, **middlewares** and another.
 
 - The `filters` package contains classes that define **custom filters** for the bot's message handlers.
 
@@ -39,7 +40,7 @@ tgbot_template/
 
 The `run.py` script is the entry point for the template Telegram bot.
 
-### `tgbot/bot.py`
+### `tgbot/bot_app.py`
 
 It performs the following steps to start and run the bot:
 
@@ -50,13 +51,12 @@ It performs the following steps to start and run the bot:
    instance is created to store the bot's state.
 4. Create the bot and the dispatcher: A `Bot` instance is created using the bot token from the configuration, and a
    `Dispatcher` instance is created using the `Bot` instance and the storage.
-5. Register middlewares, filters, and handlers: The `register_all_middlewares()`, `register_all_filters()`, and
-   `register_all_handlers()` functions are called to register all the middlewares, filters, and handlers that are used by
+5. Register middlewares, filters, and handlers: The `register_all_middlewares()` and `register_all_filters()`functions are called to register all the middlewares, filters, and handlers that are used by
    the bot.
 6. Start the polling loop: The `start_polling()` method of the Dispatcher instance is called to start the main event loop
    for the bot. This method listens for incoming messages and routes them to the appropriate handler.
 
-### `tgbot/config.py`
+### `config.py`
 
 The `config.py` script defines a data structure for storing configuration options for the bot, such as the Telegram bot
 token, database credentials, and other parameters.
@@ -66,15 +66,15 @@ the `environs` library.
 
 The config.py file defines a `Config` class, which is used to store configuration settings for the bot.
 
-The Config class has three nested classes, `TgBot`, `DbConfig`, and `Miscellaneous`, which are used to store
+The Config class has three nested classes, `TgBot`, `DataBaseConfig`, and `Miscellaneous`, which are used to store
 configuration settings for the Telegram bot, the database, and miscellaneous settings, respectively.
 
 The `load_config` function is used to load the configuration settings from an environment file and create a `Config`
 object.
 
-### `tgbot/filters/admin.py`
+### `tgbot/filters/IsAdminFilter.py`
 
-The `admin.py` file defines an `AdminFilter` class, which is used to filter messages so that only messages from
+The `IsAdminFilter.py` file defines an `AdminFilter` class, which is used to filter messages so that only messages from
 authorized users **(i.e., users who are listed in the ADMINS configuration setting)** are processed by the bot.
 
 The `AdminFilter` class is a subclass of `BoundFilter` from the **aiogram** library, and it defines a key property that
@@ -86,34 +86,26 @@ user, and if so, it returns `True`, indicating that the message should be proces
 `False`, indicating that the message should be ignored by the bot. The `check` method is called by the bot's dispatcher
 when a message is received.
 
-### `tgbot/handlers/admin.py`
+### `tgbot/handlers/admin_handlers.py`
 
-The `admin.py` file defines a `register_admin` function, which is used to register event handlers for messages that are
+The `admin_handlers.py` file defines functions, which is used to register event handlers for messages that are
 sent by authorized users (**i.e., users who are listed in the ADMINS configuration setting**).
-
-The `register_admin` function takes a `Dispatcher` object as its parameter, and it uses this object to register event
-handlers that respond to different types of messages.
 
 For example, it might register an event handler that responds to commands that are sent by authorized users, such as
 the `/echo` command, which causes the bot to repeat the text of the message back to the user.
 
-### `tgbot/handlers/echo.py`
+### `tgbot/handlers/echo_handlers.py`
 
-The `echo.py` file defines a `register_echo` function, which is used to register an event handler for the `/echo`
+The `echo_handlers.py` file defines a functions, which is used to register an event handler for the `/echo`
 command.
+
 This event handler is responsible for repeating the text of the message back to the user. The `register_echo` function
 takes a `Dispatcher` object as its parameter, and it uses this object to register the `/echo` command handler.
 
-### `tgbot/handlers/user.py`
+### `tgbot/handlers/user`
 
-The `user.py` file defines a `register_user` function, which is used to register event handlers for messages that are
-sent
-by non-authorized users (i.e., users who are not listed in the ADMINS configuration setting).
-
-The `register_user` function takes a `Dispatcher` object as its parameter, and it uses this object to register event
-handlers that respond to different types of messages. For example, it might register an event handler that responds to
-commands that are sent by non-authorized users, such as the `/help` command, which causes the bot to send a message with
-a list of available commands.
+The `user_start_handlers.py` file defines a functions, which is used to register event handlers for messages that are
+sent by non-authorized users (i.e., users who are not listed in the ADMINS configuration setting).
 
 ### `tgbot/middlewares/environment.py`
 
@@ -145,14 +137,10 @@ In general, a package called "misc" might be used to store miscellaneous code th
 packages or modules in a project. This could include utility functions, helper classes, or other types of code that are
 used by multiple parts of the project.
 
-In this case, the `misc` package contains a `states.py` file, which defines a `StateGroup` class that is used to define
+### `tgbot/states`
+
+In this case define files, which defines a `StateGroup` class that is used to define
 the states that are used by the bot.
-
-### `tgbot/models`
-
-The `models` package can contain `users.py` file, which defines a `User` class that is used to represent a user in the
-database. This can be used with combination of some ORM (Object Relational Mapper) to store and retrieve data from the
-database.
 
 ### `tgbot/services`
 
@@ -195,10 +183,11 @@ communicate with each other.
 
 ## Dockerfile
 The `Dockerfile` defines the instructions for building the Docker image that is used by the bot service. The file begins
-by specifying the base image that should be used for the image, which in this case is `python:3.9-buster`. The `ENV`
+by specifying the base image that should be used for the image, which in this case is `python:3.11-alpine`. The `ENV`
 instruction sets the value of the `BOT_NAME` environment variable, which is used by the `WORKDIR` instruction to specify the
 working directory for the container.
 
 The `COPY` instructions are used to copy the `requirements.txt` file and the entire project directory into the image. The
 `RUN` instruction is used to install the Python dependencies from the `requirements.txt` file. This allows the application
 to run in the container with all the necessary dependencies.
+`requirements_safe.txt` file contains a list of libraries used at the time this template was created.
